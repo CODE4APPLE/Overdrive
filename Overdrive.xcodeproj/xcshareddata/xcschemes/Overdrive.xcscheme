@@ -20,34 +20,6 @@
                ReferencedContainer = "container:Overdrive.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B36FE50F1D908181003C6A77"
-               BuildableName = "Extensions.framework"
-               BlueprintName = "Extensions"
-               ReferencedContainer = "container:Overdrive.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B36FE5181D90818A003C6A77"
-               BuildableName = "TestSupport.framework"
-               BlueprintName = "TestSupport"
-               ReferencedContainer = "container:Overdrive.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
