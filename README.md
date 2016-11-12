@@ -15,19 +15,18 @@ Overdrive was created as a result of that struggle. It is a framework that expos
 * [Requirements](#requirements)
 * [Usage](#usage)
 * [Concurrency](#concurrency)
-* Documentation: [Getting Started](https://arikis.github.io/Overdrive/latest/getting-started.html), [Installation](https://arikis.github.io/Overdrive/latest/installation.html), [State Machine](https://arikis.github.io/Overdrive/latest/state-machine.html)
+* Documentation: [Getting Started](https://arikis.github.io/Overdrive/latest/getting-started.html), [Installation](https://arikis.github.io/Overdrive/latest/installation.html), [Complex tasks](https://arikis.github.io/Overdrive/latest/complex-tasks.html), [State Machine](https://arikis.github.io/Overdrive/latest/state-machine.html)
 
 ## What can I do with Overdrive?
 
-* execute tasks concurrently
-* utilize multi-core capabilities to ensure faster execution
-* easily defer task execution to custom thread or queue
-* ensure that multiple tasks are executed in the correct order
-* express custom conditions under which tasks can be executed
-* enforce testability
-* move logic from view controllers to simple modular units
-* retry tasks that finished with errors
-* don’t worry about thread-safety
+- [x] Execute tasks concurrently
+- [x] Utilize multi-core systems by default
+- [x] Easily defer task execution to custom thread or queue
+- [x] Ensure that multiple tasks are executed in the correct order
+- [x] Express custom conditions under which tasks can be executed
+- [x] Enforce testability
+- [x] Retry tasks that finished with errors
+- [x] Write thread safe code by default
 
 ## Requirements
 
@@ -38,7 +37,6 @@ Overdrive was created as a result of that struggle. It is a framework that expos
 ## Installation
 
 #### [Carthage](https://github.com/Carthage/Carthage)
-Add following to the `Cartfile`:
 
 ```shell
 github "arikis/Overdrive" >= 0.0.1
@@ -77,66 +75,54 @@ let package = Package(
 
 Overdrive features two main classes:
 
-- `Task<T>` - used to define task [documentation](https://arikis.github.io/Overdrive/latest/Classes/Task.html)
-- `TaskQueue` - used to execute tasks and manage concurrency and multi threading [documentation](https://arikis.github.io/Overdrive/latest/Classes/TaskQueue.html)
+- `Task<T>` - Used to encapsulate any asynchronous or synchronous work - [Documentation](https://arikis.github.io/Overdrive/latest/Classes/Task.html)
+- `TaskQueue` - Used to execute tasks and manage concurrency and multi threading -  [Documentation](https://arikis.github.io/Overdrive/latest/Classes/TaskQueue.html)
 
 **Workflow:**
 
 1. Create subclass of `Task<T>`
 2. Override `run()` method and encapsulate any synchronous or asynchronous operation
-3. Finish execution with value(`T`) or error by using `finish(_:)` method
+3. Finish execution with `value(T)` or `error(Error)` by using `finish(with:)` method
 4. Create instance of subclass
 5. Add it to the `TaskQueue` when you want to start execution
 
-Example `Task<NSData>` subclass for network operation:
+Example `Task<UIImage>` subclass for photo download task:
 
 ```swift
-// Create subclass of `Task<NSData>`
-class NetworkTask: Task<NSData> {
-	let URL: NSURL
+class GetLogoTask: Task<UIImage> {
 
-	init(URL: NSURL) {
-	    self.URL = URL
-	}
+  override func run() {
+      let logoURL = URL(string: "https://swiftable.io/logo.png")!
 
-	// Override run() method
-	override func run() {
-	    let request = NSURLRequest(URL: URL)
-
-	    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-	        data, response, error in
-	        if error != nil {
-	        	// Finish with error if any
-	            self.finish(.Error(error!))
-	        } else {
-	        	// Finish with value
-	            self.finish(.Value(data!))
-	        }
-	    }
-
-	    task.resume()
-	}
+      do {
+          let logoData = try Data(contentsOf: logoURL)
+          let image = UIImage(data: logoData)!
+          finish(with: .value(image)) // finish with image
+      } catch {
+          finish(with: .error(error)) // finish with error if any
+      }
+  }
 }
 ```
 
-To setup completion blocks, you use `onValue()` and `onError()` methods:
+To setup completion blocks, you use `onValue` and `onError` methods:
 
 ```swift
-let task = NetworkTask(URL: NSURL(string: "https://google.com")!)
+let logoTask = GetLogoTask()
 
 task
-    .onValue { data in
-    	print(data)
+    .onValue { logo in
+        print(logo) // UIImage object
     }.onError { error in
         print(error)
 }
 ```
 
-To execute the task add it to the `TaskQueue`
+To execute the task add it to the instance of `TaskQueue`
 
 ```swift
 let queue = TaskQueue()
-queue.addTask(task)
+queue.add(task: logoTask)
 ```
 
 ## Concurrency
@@ -147,7 +133,7 @@ number of maximum concurrent operations use `maxConcurrentOperationCount` proper
 
 ```swift
 let queue = TaskQueue()
-queue.maxConcurrentOperationCount = 3
+queue.maxConcurrentTaskCount = 3
 ```
 
 ## Thread safety
