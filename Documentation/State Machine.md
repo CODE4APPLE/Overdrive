@@ -1,6 +1,6 @@
 # State machine
 
-Task lifetime is defined through it's state of execution and the task state is exposed as a [`state`](https://github.com/arikis/Overdrive/blob/master/Sources/Overdrive/TaskBase.swift#L35) property.
+Task lifetime is defined through it's state of execution. Task state is exposed as a [`state`](https://github.com/arikis/Overdrive/blob/master/Sources/Overdrive/TaskBase.swift#L35) property and it's defined in the [`State` enum](https://github.com/arikis/Overdrive/blob/master/Sources/Overdrive/State.swift).
 
 From the framework user perspective, state can't be changed manually. It can be changed during the execution by the `TaskQueue` or it can be changed by the user (for ex. calling a `finish(with:)` method).
 
@@ -40,6 +40,6 @@ After the `finish(with:)` method is called task changes state to `finished`. Any
 Canceled is a special task state that be be reached from any other task state. When the task is canceled using `cancel()` method, task queue will stop the execution and change task state to `finished`.
 
 ---
+### Task state graph
 
 <img src="http://i.imgur.com/4nrdY5g.png" width="50%" height="50%" />
-> Detailed graph of task state machine.
