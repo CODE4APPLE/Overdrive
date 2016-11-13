@@ -21,15 +21,15 @@ Every task starts of with the `initialized` state. At this point, you can config
 
 ## Pending
 
-Once the task is added to the `TaskQueue` instance, its state changes to `pending` at it is scheduled for execution.
+Once the task is added to the `TaskQueue` instance, its state changes to `pending` and it is scheduled for execution.
 
 ## Ready
 
-Once the task changes state to `pending`, complex readiness evaluation begins. This is the most important step before the task is actually executed. Any task subclass can define is own  way of defining when it's ready for execution, but the default implementation checks if all task conditions are satisfied and if all dependencies are finished with work.
+Once the task changes state to `pending`, complex readiness evaluation begins. This is the most important step before the task is actually executed. Any task subclass can define is own  way of defining when it's ready for execution and the default implementation checks if all task conditions are satisfied and if all dependencies are finished with work.
 
 ## Executing
 
-After task reaches `ready` state, task execution begins. `TaskQueue` doesn't have any control on how long this process takes since tasks can be asynchronous. To finish execution, you must call `finish(with: )` method.
+After task reaches `ready` state, task execution begins. `TaskQueue` doesn't have any control on how long this this state change is going to last, since tasks can be asynchronous. To finish execution, you must call `finish(with: )` method.
 
 ## Finished
 
@@ -42,4 +42,4 @@ Canceled is a special task state that be be reached from any other task state. W
 ---
 ### Task state graph
 
-<img src="http://i.imgur.com/4nrdY5g.png" width="50%" height="50%" />
+<img src="http://i.imgur.com/9NHFGRq.png" width="50%" height="50%" />

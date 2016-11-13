@@ -29,6 +29,8 @@ TaskQueue.background.add(task: task)
 * [Requirements](#requirements)
 * [Usage](#usage)
 * [Concurrency](#concurrency)
+* [Thread safety](#thread-safety)
+* [Inspiration](#inspiration)
 * [Documentation](https://arikis.github.io/Overdrive/latest/)
   * [Getting Started](https://arikis.github.io/Overdrive/latest/getting-started.html)
   * [Installation](https://arikis.github.io/Overdrive/latest/installation.html)
@@ -146,9 +148,7 @@ queue.add(task: logoTask)
 
 ## Concurrency
 
-`TaskQueue` executes tasks concurrently by default. Maximum number of concurrent
-operations is defined by the current system conditions. If you want to limit the
-number of maximum concurrent operations use `maxConcurrentOperationCount` property.
+`TaskQueue` executes tasks concurrently by default. Maximum number of concurrent operations is defined by the current system conditions. If you want to limit the number of maximum concurrent task executions use `maxConcurrentTaskCount` property.
 
 ```swift
 let queue = TaskQueue()
@@ -157,16 +157,14 @@ queue.maxConcurrentTaskCount = 3
 
 ## Thread safety
 
-All task properties are thread-safe by default, meaning that you can access them
-from any thread or queue and not worry about locks and access synchronization.
+All task properties are thread-safe by default, meaning that you can access them from any thread or queue and not worry about locks and access synchronization.
 
 ## Inspiration
 
-Inspiration for the `Overdrive` framework came from several WWDC videos:
+`Overdrive` framework was heavily inspired by talks and code from several Apple WWDC videos.
 
 * [Protocol Oriented Programming](https://developer.apple.com/videos/play/wwdc2015/408/)
 * [Advanced NSOperations](https://developer.apple.com/videos/play/wwdc2015/226/)
 * [Protocol and Value Oriented Programming](https://developer.apple.com/videos/play/wwdc2016/419/)
 
-> `Overdrive` name comes from overdrive guitar pedals that drive amp tubes and create
-louder, distorted sound
+> `Overdrive` is a term for an effect used in electric guitar playing that occurs when guitar amp tubes starts to produce overdriven, almost distorted sound, due to the higher gain(master) setting.
