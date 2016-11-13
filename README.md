@@ -9,6 +9,20 @@ Our apps constantly do work. The faster you react to user input and produce an o
 
 Overdrive was created as a result of that struggle. It is a framework that exposes several simple concepts which are made on top of complex system frameworks that enable multithreading, concurrency and most importantly, more speed.
 
+```swift
+let task = URLSessionTask("https://api.swiftable.io")
+
+task
+  .retry(3)
+  .onValue { json in
+    print(json)
+  }.onError { error in
+    print(error)
+  }
+
+TaskQueue.background.add(task: task)
+```
+
 ### Contents:
 
 * [What can I do with Overdrive?](#what-can-i-do-with-overdrive)
@@ -75,8 +89,8 @@ let package = Package(
 
 Overdrive features two main classes:
 
-- `Task<T>` - Used to encapsulate any asynchronous or synchronous work - [Documentation](https://arikis.github.io/Overdrive/latest/Classes/Task.html)
-- `TaskQueue` - Used to execute tasks and manage concurrency and multi threading -  [Documentation](https://arikis.github.io/Overdrive/latest/Classes/TaskQueue.html)
+- [`Task<T>`](https://github.com/arikis/Overdrive/blob/docs/Sources/Overdrive/Task.swift) - Used to encapsulate any asynchronous or synchronous work - [Documentation](https://arikis.github.io/Overdrive/latest/Classes/Task.html)
+- [`TaskQueue`](https://github.com/arikis/Overdrive/blob/docs/Sources/Overdrive/TaskQueue.swift) - Used to execute tasks and manage concurrency and multi threading -  [Documentation](https://arikis.github.io/Overdrive/latest/Classes/TaskQueue.html)
 
 **Workflow:**
 
@@ -110,7 +124,7 @@ To setup completion blocks, you use `onValue` and `onError` methods:
 ```swift
 let logoTask = GetLogoTask()
 
-task
+logoTask
     .onValue { logo in
         print(logo) // UIImage object
     }.onError { error in
